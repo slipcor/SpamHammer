@@ -1,0 +1,50 @@
+# === [ SpamHammer Config ] ===
+
+settings:
+  # === [ Message Spam Settings ] ===
+  message:
+    # The message rate settings determine how many messages per time frame are allowed before they are considered spam.
+    # The default of limit: 3 and period: 1 means more than 3 messages per 1 second will be considered spam
+    rate:
+      period: 1
+      limit: 3
+      # Prevents messages above the rate limit from displaying
+      prevent: true
+    # The repeat settings allow you to prevent users from repeating the same message in a row
+    repeat:
+      # If SpamHammer is set to block repeat messages, this is how many messages before they are considered repeats.
+      limit: 2
+      # If set to true, this will block repeat messages.
+      block: true
+  # === [ Punishment Settings ] ===
+  punishments:
+    kick:
+      # Setting this to true will kick players as the second level of punishment.
+      use: true
+    mute:
+      # Setting this to true will mute players as the first level of punishment.
+      use: true
+      # If mute punishment is used, this is how long the player will be muted for.
+      # This time measured in seconds.
+      length: 30
+    ban:
+      # Setting this to true will ban players as the final level of punishment.
+      use: true
+  # Will make the plugin perform tasks only done on a first run (if any.)
+  first_run: false
+  cooloff:
+    # This setting determines how long a player will be watched for additional spam before starting
+    # them at the lowest punishment level.
+    # This time measured in seconds.
+    time: 300
+  language:
+    # This is the locale you wish to use.
+    locale: en
+    # This is the language file you wish to use.
+    file: english.yml
+  commandlist:
+    # The commands listed here will be included in spam checking.
+    possiblespam:
+    - /g
+    - /general
+    - /yell

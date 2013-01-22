@@ -1,0 +1,77 @@
+name: SpamHammer
+main: com.dumptruckman.spamhammer.SpamHammerPlugin
+version: maven-version-number
+authors: [dumptruckman,slipcor]
+dev-url: http://dev.bukkit.org/server-mods/spamhammer
+permissions:
+  spamhammer.*:
+    description: Allows full access to SpamHammer
+    children:
+      spamhammer.bypass.*: true
+      spamhammer.cmd.*: true
+    default: op
+  spamhammer.bypass.*:
+    description: Allows to bypass ban punishments
+    children:
+      spamhammer.bypass.repeat: true
+      spamhammer.bypass.punish.*: true
+    default: false
+  spamhammer.bypass.punish.*:
+    description: Allows to bypass ban punishments
+    children:
+      spamhammer.bypass.punish.ban: true
+      spamhammer.bypass.punish.kick: true
+      spamhammer.bypass.punish.mute: true
+    default: false
+  spamhammer.bypass.repeat:
+    description: Allows to bypass repeat message limit
+    default: false
+  spamhammer.bypass.punish.ban:
+    description: Allows to bypass ban punishments
+    default: false
+  spamhammer.bypass.punish.kick:
+    description: Allows to bypass kick punishments
+    default: false
+  spamhammer.bypass.punish.mute:
+    description: Allows to bypass mute punishments
+    default: false
+  spamhammer.cmd.*:
+    description: Allows use of all commands
+    children:
+      spamhammer.cmd.unmute: true
+      spamhammer.cmd.reset: true
+      spamhammer.cmd.reload: true
+    default: false
+  spamhammer.cmd.unmute:
+    description: Allows use of the unmute command
+    default: false
+  spamhammer.cmd.reset:
+    description: Allows use of the reset command
+    default: false
+  spamhammer.cmd.reload:
+    description: Allows use of the reload command
+    default: false
+commands:
+  spam:
+    description: Base command for SpamHammer.
+    usage: |
+           /<command> unmute
+           /<command> reset
+           /<command> reload
+  spamunmute:
+    description: Unmutes a player banned by SpamHammer.
+    usage: |
+           /<command> <playername>
+           /<command> dumptruckman - unmutes dumptruckman if he was muted by SpamHammer.
+    permission: spamhammer.cmd.unmute
+  spamreset:
+    description: Resets a player's history with SpamHammer
+    usage: |
+           /<command> <playername>
+           /<command> dumptruckman - Makes it like dumptruckman never spammed in the first place.
+    permission: spamhammer.cmd.reset
+  spamreload:
+    description: Reloads the SpamHammer config.yml
+    usage: |
+           /<command>
+    permission: spamhammer.cmd.reload
