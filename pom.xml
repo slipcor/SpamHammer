@@ -93,7 +93,6 @@
                     <replacements>
                         <replacement>
                             <token>maven-version-number</token>
-                            <!--<value>${project.version}-b${project.build.number}</value>-->
                             <value>${project.version}-b3</value>
                         </replacement>
                     </replacements>
