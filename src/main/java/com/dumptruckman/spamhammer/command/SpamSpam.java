@@ -30,6 +30,7 @@ public class SpamSpam extends SHCommand {
             args[pos++] = string;
         }
         subCommand = "spam" + subCommand;
+        
         final PluginCommand command = plugin.getCommand(subCommand);
 
         if (command == null || "spam".equalsIgnoreCase(subCommand)) {

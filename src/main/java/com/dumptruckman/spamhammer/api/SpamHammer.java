@@ -1,11 +1,11 @@
 package com.dumptruckman.spamhammer.api;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
-public abstract class SpamHammer extends JavaPlugin {
+public interface SpamHammer extends Plugin {
     
-    public abstract Config config();
+    Config config();
     
-    public abstract SpamHandler getSpamHandler();
+    SpamHandler getSpamHandler();
     
 }

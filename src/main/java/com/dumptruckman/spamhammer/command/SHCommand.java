@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package com.dumptruckman.spamhammer.command;
+import com.dumptruckman.spamhammer.SpamHammerPlugin;
 import com.dumptruckman.spamhammer.api.SpamHammer;
 import com.dumptruckman.spamhammer.util.Language;
 import com.dumptruckman.spamhammer.util.Messager;
@@ -16,14 +17,14 @@ import org.bukkit.command.CommandSender;
  * @author Chris
  */
 public class SHCommand implements CommandExecutor {
-    protected SpamHammer plugin;
+    protected SpamHammerPlugin plugin;
     
     private int min;
     private int max;
     
     private Perms permission;
     
-    public SHCommand(final SpamHammer plugin) {
+    public SHCommand(final SpamHammerPlugin plugin) {
         this.plugin = plugin;
     }
     

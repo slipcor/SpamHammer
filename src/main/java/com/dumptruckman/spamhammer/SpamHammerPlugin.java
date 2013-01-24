@@ -12,12 +12,13 @@ import com.dumptruckman.spamhammer.util.Language;
 import com.dumptruckman.spamhammer.util.Messager;
 import java.io.IOException;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  *
  * @author Chris
  */
-public class SpamHammerPlugin extends SpamHammer {
+public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
     
     protected Config cfg = null;
     private SpamHandler spamHandler = null;
