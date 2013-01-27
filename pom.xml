@@ -66,10 +66,6 @@
                     <file>target/classes/plugin.yml</file>
                     <replacements>
                         <replacement>
-                            <token>maven-version-number</token>
-                            <value>${project.version}</value>
-                        </replacement>
-                        <replacement>
                             <token>jenkins-build-number</token>
                             <value>${BUILD_NUMBER}</value>
                         </replacement>
