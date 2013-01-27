@@ -30,11 +30,8 @@
 
     <build>
         <defaultGoal>clean package</defaultGoal>
-        <!--<finalName>spamhammer-3.0-r${buildNumber}</finalName>-->
         <finalName>spamhammer-3.0</finalName>
         <plugins>
-            
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -44,7 +41,6 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <!-- Jar Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
