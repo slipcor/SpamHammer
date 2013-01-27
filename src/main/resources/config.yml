@@ -37,6 +37,7 @@ settings:
     # them at the lowest punishment level.
     # This time measured in seconds.
     time: 300
+  callhome: true
   language:
     # This is the locale you wish to use.
     locale: en

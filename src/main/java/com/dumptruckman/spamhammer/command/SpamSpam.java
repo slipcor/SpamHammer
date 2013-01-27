@@ -5,7 +5,12 @@ import com.dumptruckman.spamhammer.util.Perms;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 
-public class SpamSpam extends SHCommand {
+/**
+ * The general /spam command
+ * 
+ * @author dumptruckman,slipcor
+ */
+public class SpamSpam extends AbstractCommand {
 
     public SpamSpam(final SpamHammerPlugin plugin) {
         super(plugin);

@@ -14,15 +14,35 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * The configuration api clas
+ * 
+ * Provides config entries and read access
+ * 
+ * @author dumptruckman,slipcor
+ */
 public class Config {
     private final JavaPlugin plugin;
     
+    /**
+     * The Config constructor;
+     * 
+     * Create the config and append comments
+     * 
+     * @param plugin the JavaPlugin which contains the config
+     */
     public Config(final JavaPlugin plugin) {
         super();
         this.plugin = plugin;
         this.appendComments();
     }
     
+    /**
+     * The Config entry class
+     * 
+     * Each entry has an explicit class type, a node, optional comments
+     * and a default value
+     */
     public enum ConfigEntry {
         MESSAGE(Null.class, "settings.message",null,new String[]{"# === [ Message Spam Settings ] ==="}),
         MESSAGE_RATE(Null.class, "settings.message.rate",null,new String[]{
@@ -59,7 +79,9 @@ public class Config {
         LANGUAGE_FILE(String.class, "settings.language.file", "en", new String[]{"# This is the language file you wish to use."}),
         COOL_OFF(Integer.class, "settings.cooloff.time",300,new String[]{
                 "# This setting determines how long a player will be watched for additional spam before starting",
-                "# them at the lowest punishment level.","# This time measured in seconds."});
+                "# them at the lowest punishment level.","# This time measured in seconds."}),
+        CALLHOME(Boolean.class, "settings.callhome",true,new String[]{
+                "# This activates phoning home to www.slipcor.net"});
     
         Class type;
         String node;
@@ -73,6 +95,11 @@ public class Config {
             this.comments = comments == null ? null : comments.clone();
         }
         
+        /**
+         * Try to get a ConfigEntry based on a node string
+         * @param node the node to search for
+         * @return the entry or null if not found
+         */
         private static ConfigEntry getByNode(final String node) {
             for (ConfigEntry c : values()) {
                 if (c.getNode().equals(node)) {
@@ -82,31 +109,64 @@ public class Config {
             return null;
         }
         
+        /**
+         * Get the node string
+         * @return the node string
+         */
         String getNode() {
             return node;
         }
     }
     
+    /**
+     * Read a config String entry
+     * @param entry the entry to read
+     * @return the config string value
+     */
     public String get(final ConfigEntry entry) {
         return plugin.getConfig().getString(entry.getNode());
     }
     
+    /**
+     * Read a config Boolean entry
+     * @param entry the entry to read
+     * @return the config boolean value
+     */
     public boolean getBoolean(final ConfigEntry entry) {
         return plugin.getConfig().getBoolean(entry.getNode());
     }
     
+    /**
+     * Read a config Integer entry
+     * @param entry the entry to read
+     * @return the config int value
+     */
     public int getInt(final ConfigEntry entry) {
         return plugin.getConfig().getInt(entry.getNode());
     }
     
+    /**
+     * Read a config StringList entry
+     * @param entry the entry to read
+     * @return the config string list value
+     */
     public List<String> getList(final ConfigEntry entry) {
         return plugin.getConfig().getStringList(entry.getNode());
     }
     
+    /**
+     * on reloading, append the comments
+     */
     public void reload() {
         appendComments();
     }
     
+    /**
+     * Append the comments.
+     * 
+     * Iterate over the config file and add comments, if we didn't do that
+     * alreaady.
+     */
     private void appendComments() {
         final File ymlFile = new File(plugin.getDataFolder(), "config.yml");
         

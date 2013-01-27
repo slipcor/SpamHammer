@@ -5,6 +5,13 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+/**
+ * The language enum
+ * 
+ * Contains all language nodes and their values
+ * 
+ * @author dumptruckman,slipcor
+ */
 public enum Language {
     
     CFG_LOAD_ERROR("config.load.error", "Error while loading config! Plugin will be disabled!"),
@@ -50,6 +57,13 @@ public enum Language {
         this.msg = msg;
     }
     
+    /**
+     * Initiate the language class
+     * 
+     * @param plugin the SpamHammer plugin
+     * @param file the configuration file
+     * @throws IOException 
+     */
     public static void init(final SpamHammer plugin, final String file) throws IOException {
         final File cfg = new File(plugin.getDataFolder(), file);
         cfgFile = YamlConfiguration.loadConfiguration(cfg);
@@ -65,6 +79,11 @@ public enum Language {
         cfgFile.save(cfg);
     }
     
+    /**
+     * Override the toString() method in order to get the actual values easier
+     * 
+     * @return the config value
+     */
     @Override
     public String toString() {
         return cfgFile.getString(node);

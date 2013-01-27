@@ -1,6 +1,6 @@
 name: SpamHammer
 main: com.dumptruckman.spamhammer.SpamHammerPlugin
-version: maven-version-number
+version: 3.0.0.jenkins-build-number
 authors: [dumptruckman,slipcor]
 dev-url: http://dev.bukkit.org/server-mods/spamhammer
 permissions:

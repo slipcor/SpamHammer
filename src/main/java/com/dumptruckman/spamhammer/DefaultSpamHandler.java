@@ -15,17 +15,31 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+/**
+ * SpamHandler implementation class
+ * 
+ * Contains the actual functionality
+ * 
+ * @author dumptruckman,slipcor
+ */
 public class DefaultSpamHandler implements SpamHandler {
     protected Config config;
 
-    final private ConcurrentHashMap<OfflinePlayer, ArrayDeque<Long>> playerChatTimes = new ConcurrentHashMap<OfflinePlayer, ArrayDeque<Long>>();
-    final private ConcurrentHashMap<OfflinePlayer, ArrayDeque<String>> playerChatHistory = new ConcurrentHashMap<OfflinePlayer, ArrayDeque<String>>();
-    final private ConcurrentHashMap<OfflinePlayer, Long> actionTime = new ConcurrentHashMap<OfflinePlayer, Long>();
+    final private ConcurrentHashMap<String, ArrayDeque<Long>> playerChatTimes = new ConcurrentHashMap<String, ArrayDeque<Long>>();
+    final private ConcurrentHashMap<String, ArrayDeque<String>> playerChatHistory = new ConcurrentHashMap<String, ArrayDeque<String>>();
+    final private ConcurrentHashMap<String, Long> playerActionTime = new ConcurrentHashMap<String, Long>();
 
-    final private List<OfflinePlayer> mutedPlayers = new ArrayList<OfflinePlayer>();
-    final private List<OfflinePlayer> beenMutedPlayers = new ArrayList<OfflinePlayer>();
-    final private List<OfflinePlayer> beenKickedPlayers = new ArrayList<OfflinePlayer>();
+    final private List<String> mutedPlayers = new ArrayList<String>();
+    final private List<String> beenMutedPlayers = new ArrayList<String>();
+    final private List<String> beenKickedPlayers = new ArrayList<String>();
 
+    /**
+     * SpamHandler constructor
+     * 
+     * Hands over the plugin configuration and starts the check timer
+     * 
+     * @param plugin the plug
+     */
     public DefaultSpamHandler(final SpamHammer plugin) {
         this.config = plugin.config();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
@@ -36,9 +50,15 @@ public class DefaultSpamHandler implements SpamHandler {
         }, 0, 20L);
     }
 
+    /**
+     * Clean a player's history and ban him
+     * 
+     * @param player the player to ban
+     */
+    @Override
     public void banPlayer(final OfflinePlayer player) {
-        if (playerChatHistory.contains(player)) {
-            playerChatHistory.get(player).clear();
+        if (playerChatHistory.contains(player.getName())) {
+            playerChatHistory.get(player.getName()).clear();
         }
         final Player onlinePlayer = player.getPlayer();
         if (onlinePlayer != null && !Perms.BYPASS_BAN.has(onlinePlayer)) {
@@ -47,34 +67,40 @@ public class DefaultSpamHandler implements SpamHandler {
         }
     }
 
+    /**
+     * Has a player been kicked before?
+     * 
+     * @param name the player to check
+     * 
+     * @return true if the player has been kicked
+     */
+    @Override
     public boolean beenKicked(final OfflinePlayer name) {
-        if (beenKickedPlayers.contains(name)) {
-            return true;
-        }
-        for (OfflinePlayer player : beenKickedPlayers) {
-            if (player.getName().equals(name.getName())) {
-                return true;
-            }
-        }
-        return false;
+        return beenKickedPlayers.contains(name.getName());
     }
 
+    /**
+     * Has a player been muted before?
+     * 
+     * @param name the player to check
+     * 
+     * @return true if the player has been muted
+     */
+    @Override
     public boolean beenMuted(final OfflinePlayer name) {
-        if (beenMutedPlayers.contains(name)) {
-            return true;
-        }
-        for (OfflinePlayer player : beenMutedPlayers) {
-            if (player.getName().equals(name.getName())) {
-                return true;
-            }
-        }
-        return false;
+        return beenMutedPlayers.contains(name.getName());
     }
 
-    public void checkTimes() {
+    /**
+     * Check player timings.
+     * 
+     * Iterate over all players to check if cooldowns should deplete
+     */
+    private void checkTimes() {
         final long time = System.nanoTime() / 1000000;
-        for (OfflinePlayer player : actionTime.keySet()) {
-            final long action = actionTime.get(player);
+        for (String playerName : playerActionTime.keySet()) {
+            final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
+            final long action = playerActionTime.get(playerName);
             if (isMuted(player)) {
                 final long muteLength = config.getInt(ConfigEntry.MUTE_LENGTH) * 1000;
                 if (time > (action + muteLength)) {
@@ -98,12 +124,19 @@ public class DefaultSpamHandler implements SpamHandler {
         }
     }
 
+    /**
+     * Handle a player chat message
+     * 
+     * @param player the chatting player
+     * @param message the message content
+     * @return if the player is spamming
+     */
     @Override
     public boolean handleChat(final OfflinePlayer player, final String message) {
         boolean isSpamming = false;
 
         // Detect rate limited messages
-        ArrayDeque<Long> times = playerChatTimes.get(player);
+        ArrayDeque<Long> times = playerChatTimes.get(player.getName());
         if (times == null) {
             times = new ArrayDeque<Long>();
         }
@@ -125,11 +158,11 @@ public class DefaultSpamHandler implements SpamHandler {
         if (times.size() >= config.getInt(ConfigEntry.MESSAGE_LIMIT)) {
             isSpamming = true;
         }
-        playerChatTimes.put(player, times);
+        playerChatTimes.put(player.getName(), times);
 
         // Detect duplicate messages
         if (config.getBoolean(ConfigEntry.BLOCK_REPEATS) && !isSpamming) {
-            ArrayDeque<String> playerChat = playerChatHistory.get(player);
+            ArrayDeque<String> playerChat = playerChatHistory.get(player.getName());
             if (playerChat == null) {
                 playerChat = new ArrayDeque<String>();
             }
@@ -137,7 +170,7 @@ public class DefaultSpamHandler implements SpamHandler {
             if (playerChat.size() > (config.getInt(ConfigEntry.REPEAT_LIMIT) + 1)) {
                 playerChat.remove();
             }
-            playerChatHistory.put(player, playerChat);
+            playerChatHistory.put(player.getName(), playerChat);
             isSpamming = hasDuplicateMessages(player);
         }
 
@@ -147,11 +180,23 @@ public class DefaultSpamHandler implements SpamHandler {
         return isSpamming;
     }
 
+    /**
+     * Did a player say the same thing too often?
+     * 
+     * @param name the player to check
+     * 
+     * @return if the player has too many duplicates
+     */
+    @Override
     public boolean hasDuplicateMessages(final OfflinePlayer name) {
+        if (Perms.BYPASS_REPEAT.has(Bukkit.getPlayer(name.getName()))) {
+            return false; // if he has the permission, he never has any duplicates
+        }
+        
         boolean isSpamming = false;
         int samecount = 1;
         String lastMessage = null;
-        for (Object m : playerChatHistory.get(name).toArray()) {
+        for (Object m : playerChatHistory.get(name.getName()).toArray()) {
             final String message = m.toString();
             if (lastMessage == null) {
                 lastMessage = message;
@@ -160,8 +205,8 @@ public class DefaultSpamHandler implements SpamHandler {
             if (message.equals(lastMessage)) {
                 samecount++;
             } else {
-                playerChatHistory.get(name).clear();
-                playerChatHistory.get(name).add(message);
+                playerChatHistory.get(name.getName()).clear();
+                playerChatHistory.get(name.getName()).add(message);
                 break;
             }
             isSpamming = (samecount > config.getInt(ConfigEntry.REPEAT_LIMIT));
@@ -169,29 +214,48 @@ public class DefaultSpamHandler implements SpamHandler {
         return isSpamming;
     }
 
+    /**
+     * Is a player muted?
+     * 
+     * @param name the player to check
+     * 
+     * @return if the player is muted
+     */
     @Override
     public boolean isMuted(final OfflinePlayer name) {
-        return mutedPlayers.contains(name);
+        return mutedPlayers.contains(name.getName());
     }
 
+    /**
+     * Clean a player's history and ban him
+     * 
+     * @param player the player to ban
+     */
+    @Override
     public void kickPlayer(final OfflinePlayer player) {
-        if (playerChatHistory.get(player) != null) {
-            playerChatHistory.get(player).clear();
+        if (playerChatHistory.get(player.getName()) != null) {
+            playerChatHistory.get(player.getName()).clear();
         }
-        beenKickedPlayers.add(player);
-        actionTime.put(player, System.nanoTime() / 1000000);
+        beenKickedPlayers.add(player.getName());
+        playerActionTime.put(player.getName(), System.nanoTime() / 1000000);
         final Player onlinePlayer = player.getPlayer();
         if (onlinePlayer != null && !Perms.BYPASS_KICK.has(onlinePlayer)) {
             onlinePlayer.kickPlayer(Language.KICK_MESSAGE.toString());
         }
     }
 
+    /**
+     * Clear a player's history and mute him
+     * 
+     * @param player the player to mute
+     */
+    @Override
     public void mutePlayer(final OfflinePlayer player) {
-        mutedPlayers.add(player);
-        beenMutedPlayers.add(player);
-        actionTime.put(player, System.nanoTime() / 1000000);
-        playerChatTimes.get(player).clear();
-        playerChatHistory.get(player).clear();
+        mutedPlayers.add(player.getName());
+        beenMutedPlayers.add(player.getName());
+        playerActionTime.put(player.getName(), System.nanoTime() / 1000000);
+        playerChatTimes.get(player.getName()).clear();
+        playerChatHistory.get(player.getName()).clear();
 
         final Player onlinePlayer = player.getPlayer();
         if (onlinePlayer != null) {
@@ -199,7 +263,12 @@ public class DefaultSpamHandler implements SpamHandler {
         }
     }
 
-    public void playerIsSpamming(final OfflinePlayer name) {
+    /**
+     * A player is spamming. Punish him!
+     * 
+     * @param name the spamming player
+     */
+    private void playerIsSpamming(final OfflinePlayer name) {
         final boolean useMute = config.getBoolean(ConfigEntry.USE_MUTE);
         final boolean useKick = config.getBoolean(ConfigEntry.USE_KICK);
         final boolean useBan = config.getBoolean(ConfigEntry.USE_BAN);
@@ -216,26 +285,47 @@ public class DefaultSpamHandler implements SpamHandler {
         }
     }
     
+    /**
+     * Clear a player's kick history
+     * 
+     * @param player the player to clear
+     */
     @Override
     public void removeKickHistory(final OfflinePlayer player) {
-        beenKickedPlayers.remove(player);
+        beenKickedPlayers.remove(player.getName());
     }
     
+    /**
+     * Clear a player's mute history
+     * 
+     * @param player the player to clear
+     */
     @Override
     public void removeMuteHistory(final OfflinePlayer player) {
-        beenMutedPlayers.remove(player);
+        beenMutedPlayers.remove(player.getName());
     }
 
+    /**
+     * Unban a player
+     * 
+     * @param player the player to unban
+     */
+    @Override
+    public void unBanPlayer(final OfflinePlayer player) {
+        player.setBanned(false);
+    }
+
+    /**
+     * Unmute a player
+     * 
+     * @param player the player to unmute
+     */
     @Override
     public void unMutePlayer(final OfflinePlayer player) {
-        mutedPlayers.remove(player);
+        mutedPlayers.remove(player.getName());
         final Player onlinePlayer = player.getPlayer();
         if (onlinePlayer != null) {
             Messager.normal(Language.UNMUTE, onlinePlayer);
         }
-    }
-
-    public void unBanPlayer(final OfflinePlayer player) {
-        player.setBanned(false);
     }
 }

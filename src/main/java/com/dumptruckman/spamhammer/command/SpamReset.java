@@ -8,7 +8,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-public class SpamReset extends SHCommand {
+/**
+ * The reset command
+ * 
+ * @author dumptruckman,slipcor
+ */
+public class SpamReset extends AbstractCommand {
 
     public SpamReset(final SpamHammerPlugin plugin) {
         super(plugin);

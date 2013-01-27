@@ -10,32 +10,31 @@ import com.dumptruckman.spamhammer.command.SpamSpam;
 import com.dumptruckman.spamhammer.command.SpamUnmute;
 import com.dumptruckman.spamhammer.util.Language;
 import com.dumptruckman.spamhammer.util.Messager;
+import com.dumptruckman.spamhammer.util.Tracker;
 import java.io.IOException;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- *
- * @author Chris
+ * The SpamHammer implementation class
+ * 
+ * Contains the actual functionality
+ * 
+ * @author dumptruckman,slipcor
  */
 public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
     
     protected Config cfg = null;
     private SpamHandler spamHandler = null;
+    private static final int CFGVERSION = 2;
     
     /**
-     * JavaPlugin constructor to not make the instantiation freak out
+     * Return the {@link com.dumptruckman.spamhammer.api.Config} instance
+     * 
+     * If necessary, create one
+     * 
+     * @return the instance
      */
-    public SpamHammerPlugin() {
-        super();
-        // just do nothing
-    }
-    
-    public SpamHammerPlugin(final SpamHammer plugin) {
-        super();
-        this.cfg = plugin.config();
-    }
-    
     @Override
     public Config config() {
         if (this.cfg == null) {
@@ -53,6 +52,13 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
       return this.cfg;
     }
     
+    /**
+     * Get the SpamHandler instance
+     * 
+     * If necessary, create one
+     * 
+     * @return the instance
+     */
     @Override
     public SpamHandler getSpamHandler() {
         if (this.spamHandler == null) {
@@ -61,11 +67,16 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
         return this.spamHandler;
     }
     
+    /**
+     * Create and return a new {@link com.dumptruckman.spamhammer.api.Config} instance
+     * @return the instnace
+     * @throws IOException 
+     */
     private Config newConfigInstance() throws IOException {
         
-        if (getConfig().getInt("ver", 0) < 1) {
+        if (getConfig().getInt("ver", 0) < CFGVERSION) {
             getConfig().options().copyDefaults(true);
-            getConfig().set("ver", 1);
+            getConfig().set("ver", CFGVERSION);
             saveConfig();
         }
 
@@ -73,7 +84,18 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
         return new Config(this);
     }
     
+    /**
+     * When disabling the plugin, stop the Tracker thread
+     */
+    @Override
+    public void onDisable() {
+        Tracker.stop();
+    }
     
+    /**
+     * When enabling the plugin, initiate the Language, register
+     * the events, commands and start the Tracker
+     */
     @Override
     public void onEnable() {
         try {
@@ -87,8 +109,14 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
         final PluginListener listener = new PluginListener(this);
         getServer().getPluginManager().registerEvents(listener, this);
         registerCommands();
+        
+        final Tracker trackMe = new Tracker(this);
+        trackMe.start();
     }
     
+    /**
+     * Register the SpamHammer commands
+     */
     private void registerCommands() {
         getCommand("spam").setExecutor(new SpamSpam(this));
         getCommand("spamreload").setExecutor(new SpamReload(this));
@@ -96,6 +124,9 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
         getCommand("spamunmute").setExecutor(new SpamUnmute(this));
     }
     
+    /**
+     * Reload the configuration
+     */
     @Override
     public void reloadConfig() {
         super.reloadConfig();

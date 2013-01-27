@@ -8,13 +8,16 @@ import com.dumptruckman.spamhammer.util.Language;
 import com.dumptruckman.spamhammer.util.Messager;
 import com.dumptruckman.spamhammer.util.Perms;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 /**
- * @author dumptruckman
+ * The listener class
+ * 
+ * @author dumptruckman,slipcor
  */
 public class PluginListener implements Listener {
 
@@ -26,7 +29,12 @@ public class PluginListener implements Listener {
         this.config = plugin.config();
     }
 
-    @EventHandler()
+    /**
+     * Listen to chatting players
+     * 
+     * @param event the async player chat event
+     */
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerChat(final AsyncPlayerChatEvent event) {
         // TODO change this to detect long messages and see if they're different. could then assume chat mod in use.
         
@@ -43,7 +51,12 @@ public class PluginListener implements Listener {
         }
     }
 
-    @EventHandler
+    /**
+     * Listen to players issueing commands
+     * 
+     * @param event the command preprocess event
+     */
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(final PlayerCommandPreprocessEvent event) {
         if (handler.isMuted(event.getPlayer()) && !Perms.BYPASS_MUTE.has(event.getPlayer())) {
             event.setCancelled(true);
@@ -60,7 +73,12 @@ public class PluginListener implements Listener {
         }
     }
 
-    @EventHandler
+    /**
+     * Listen to players logging in
+     * 
+     * @param event the login event
+     */
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerLogin(final PlayerLoginEvent event) {
         if (event.getPlayer().isBanned()) {
             event.disallow(PlayerLoginEvent.Result.KICK_BANNED, Language.BAN_MESSAGE.toString());

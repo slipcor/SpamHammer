@@ -8,7 +8,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-public class SpamUnmute extends SHCommand {
+/**
+ * The unmute command
+ * 
+ * @author dumptruckman,slipcor
+ */
+public class SpamUnmute extends AbstractCommand {
 
     public SpamUnmute(final SpamHammerPlugin plugin) {
         super(plugin);

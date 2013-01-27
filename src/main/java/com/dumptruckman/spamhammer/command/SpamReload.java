@@ -6,7 +6,12 @@ import com.dumptruckman.spamhammer.util.Messager;
 import com.dumptruckman.spamhammer.util.Perms;
 import org.bukkit.command.CommandSender;
 
-public class SpamReload extends SHCommand {
+/**
+ * The reload command
+ * 
+ * @author dumptruckman,slipcor
+ */
+public class SpamReload extends AbstractCommand {
 
     public SpamReload(final SpamHammerPlugin plugin) {
         super(plugin);
