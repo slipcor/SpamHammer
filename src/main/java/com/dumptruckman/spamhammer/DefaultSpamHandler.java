@@ -42,6 +42,7 @@ public class DefaultSpamHandler implements SpamHandler {
      */
     public DefaultSpamHandler(final SpamHammer plugin) {
         this.config = plugin.config();
+        
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
