@@ -11,6 +11,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -32,6 +33,8 @@ public class DefaultSpamHandler implements SpamHandler {
     final private List<String> mutedPlayers = new ArrayList<String>();
     final private List<String> beenMutedPlayers = new ArrayList<String>();
     final private List<String> beenKickedPlayers = new ArrayList<String>();
+    
+    final private SpamHammer plugin;
 
     /**
      * SpamHandler constructor
@@ -41,6 +44,7 @@ public class DefaultSpamHandler implements SpamHandler {
      * @param plugin the plug
      */
     public DefaultSpamHandler(final SpamHammer plugin) {
+        this.plugin = plugin;
         this.config = plugin.config();
         
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
@@ -65,6 +69,7 @@ public class DefaultSpamHandler implements SpamHandler {
         if (onlinePlayer != null && !Perms.BYPASS_BAN.has(onlinePlayer)) {
             player.setBanned(true);
             onlinePlayer.kickPlayer(Language.BAN_MESSAGE.toString());
+            plugin.getLogger().log(Level.INFO, "Player banned: {0}", player.getName());
         }
     }
 
@@ -242,6 +247,7 @@ public class DefaultSpamHandler implements SpamHandler {
         final Player onlinePlayer = player.getPlayer();
         if (onlinePlayer != null && !Perms.BYPASS_KICK.has(onlinePlayer)) {
             onlinePlayer.kickPlayer(Language.KICK_MESSAGE.toString());
+            plugin.getLogger().log(Level.INFO, "Player kicked: {0}", player.getName());
         }
     }
 
@@ -260,7 +266,8 @@ public class DefaultSpamHandler implements SpamHandler {
 
         final Player onlinePlayer = player.getPlayer();
         if (onlinePlayer != null) {
-            Messager.normal(Language.MUTE, onlinePlayer, String.valueOf(config.getInt(ConfigEntry.MUTE_LENGTH)));
+            Messager.bad(Language.MUTE, onlinePlayer, String.valueOf(config.getInt(ConfigEntry.MUTE_LENGTH)));
+            plugin.getLogger().log(Level.INFO, "Player muted: {0}", player.getName());
         }
     }
 
