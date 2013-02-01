@@ -44,6 +44,9 @@ public enum Language {
     RESET_COMMAND_MESSAGE_SUCCESS("command.reset.success",
             "%1's punishment level reset."),
     
+    LANGUAGE_FILE("languagefile",
+            "Successfully loaded: %1"),
+    
     VALID_GREATER_ZERO("validation.greater_than_zero",
             "Must be a number greater than zero!");
     
@@ -66,11 +69,10 @@ public enum Language {
      */
     public static void init(final SpamHammer plugin, final String file) throws IOException {
         final File cfg = new File(plugin.getDataFolder(), file);
-        cfgFile = YamlConfiguration.loadConfiguration(cfg);
         if (!cfg.exists()) {
             cfg.createNewFile();
         }
-        cfgFile = new YamlConfiguration();
+        cfgFile = YamlConfiguration.loadConfiguration(cfg);
         
         cfgFile.options().copyDefaults(true);
         for (Language l : Language.values()) {

@@ -1,0 +1,51 @@
+== SpamHammer
+
+Hammer those spammers!
+
+-----------------------------------------------------------------------------------------------------------------------
+
+=== Features
+
+* Punishment based on messages/time
+* Punishment based on repeated messages
+** Mute
+** Kick
+** Ban
+* Unmute / Unban / Reset stats
+* Permissions
+** Bypass punishments
+** Issue reset/unmute/reload
+
+-----------------------------------------------------------------------------------------------------------------------
+
+=== Dependencies
+
+* Bukkit 1.4.6 or later
+
+-----------------------------------------------------------------------------------------------------------------------
+
+=== Changelog
+
+* v3.0.0.9: finally read the language file
+* v3.0.0.8: fix an NPE when muting a player
+* v3.0.0.7: commit the player kick on the main thread
+* v3.0.0.6: add event logging
+* v3.0.0.5: add JavaDocs, update POM to automated versioning
+* v3.0.0.4: refactor abstract class to interface
+* v3.0.0.3: remove debug spam
+* v3.0.0.2: re-add config comments, clean up code, add language file (not being read atm)
+* v3.0.0.1: re-write to get rid of the former PluginBase system which was not really used anyways
+
+-----------------------------------------------------------------------------------------------------------------------
+
+=== Todo
+
+* 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+=== Credits
+* dumptruckman for creating this plugin
+* zyxep for his beta Jenkins
+
+-----------------------------------------------------------------------------------------------------------------------

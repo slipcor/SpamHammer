@@ -100,6 +100,7 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
     public void onEnable() {
         try {
             Language.init(this, config().get(ConfigEntry.LANGUAGE_FILE));
+            Messager.normal(Language.LANGUAGE_FILE, Bukkit.getConsoleSender(), config().get(ConfigEntry.LANGUAGE_FILE));
         } catch (IOException e) {
             Messager.bad(Language.CFG_LOAD_ERROR, Bukkit.getConsoleSender());
             this.onDisable();

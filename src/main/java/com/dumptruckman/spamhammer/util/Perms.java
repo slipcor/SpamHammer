@@ -21,7 +21,6 @@ public enum Perms {
     
     CMD_ALL("spamhammer.cmd.*", "Allows use of all commands"),
     
-    CMD_UNBAN("spamhammer.cmd.unban","Allows use of unban command",CMD_ALL),
     CMD_UNMUTE("spamhammer.cmd.unmute","Allows use of unmute command",CMD_ALL),
     CMD_RESET("spamhammer.cmd.reset","Allows use of reset command",CMD_ALL),
     CMD_RELOAD("spamhammer.cmd.reload","Allows use of reload command",CMD_ALL);
