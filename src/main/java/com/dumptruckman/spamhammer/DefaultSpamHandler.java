@@ -276,7 +276,9 @@ public class DefaultSpamHandler implements SpamHandler {
         beenMutedPlayers.add(player.getName());
         playerActionTime.put(player.getName(), System.nanoTime() / 1000000);
         playerChatTimes.get(player.getName()).clear();
-        playerChatHistory.get(player.getName()).clear();
+        if (playerChatHistory.containsKey(player.getName())) {
+            playerChatHistory.get(player.getName()).clear();
+        }
 
         final Player onlinePlayer = player.getPlayer();
         if (onlinePlayer != null) {
