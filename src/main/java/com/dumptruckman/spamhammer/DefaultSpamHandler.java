@@ -66,18 +66,16 @@ public class DefaultSpamHandler implements SpamHandler {
             playerChatHistory.get(player.getName()).clear();
         }
         final Player onlinePlayer = player.getPlayer();
-        if (onlinePlayer != null && !Perms.BYPASS_BAN.has(onlinePlayer)) {
-            player.setBanned(true);
-            if (onlinePlayer != null && !Perms.BYPASS_KICK.has(onlinePlayer)) {
-                class RunLater implements Runnable {
-                    @Override
-                    public void run() {
-                        onlinePlayer.kickPlayer(Language.BAN_MESSAGE.toString());
-                        plugin.getLogger().log(Level.INFO, "Player banned: {0}", player.getName());
-                    }
+        if (onlinePlayer != null && !Perms.BYPASS_BAN.has(onlinePlayer) && !Perms.BYPASS_KICK.has(onlinePlayer)) {
+            class RunLater implements Runnable {
+                @Override
+                public void run() {
+                    onlinePlayer.kickPlayer(Language.BAN_MESSAGE.toString());
+                    player.setBanned(true);
+                    plugin.getLogger().log(Level.INFO, "Player banned: {0}", player.getName());
                 }
-                Bukkit.getScheduler().runTaskLater(plugin, new RunLater(), 1L);
             }
+            Bukkit.getScheduler().runTaskLater(plugin, new RunLater(), 1L);
         }
     }
 

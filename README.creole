@@ -26,6 +26,7 @@ Hammer those spammers!
 
 === Changelog
 
+* v3.0.0.10: first kick, then ban (displays the proper ban message)
 * v3.0.0.9: finally read the language file
 * v3.0.0.8: fix an NPE when muting a player
 * v3.0.0.7: commit the player kick on the main thread
