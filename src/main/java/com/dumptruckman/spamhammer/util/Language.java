@@ -38,10 +38,6 @@ public enum Language {
             "%1 has been unmuted."),
     UNMUTE_COMMAND_MESSAGE_FAILURE("command.unmute.failure",
             "%1 is not muted."),
-    //public static final Message UNBAN_COMMAND_MESSAGE_SUCCESS = new Message("command.unban.success",
-    //        "%1 has been unbanned");
-    //public static final Message UNBAN_COMMAND_MESSAGE_FAILURE = new Message("command.unban.failure",
-    //        "%1 is not banned by SpamHammer.");
     RELOAD_COMMAND_MESSAGE_SUCCESS("command.reload.success",
             "Config reloaded!"),
     RESET_COMMAND_MESSAGE_SUCCESS("command.reset.success",
@@ -49,6 +45,10 @@ public enum Language {
     
     LANGUAGE_FILE("languagefile",
             "Successfully loaded: %1"),
+    LOG_CHECK_IP("log.checkip",
+            "Found IP by %1"),
+    LOG_CHECK_URL("log.checkurl",
+            "Found URL by %1"),
     
     VALID_GREATER_ZERO("validation.greater_than_zero",
             "Must be a number greater than zero!");

@@ -7,6 +7,7 @@ import com.dumptruckman.spamhammer.api.SpamHandler;
 import com.dumptruckman.spamhammer.util.Language;
 import com.dumptruckman.spamhammer.util.Messager;
 import com.dumptruckman.spamhammer.util.Perms;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -57,6 +58,8 @@ public class PluginListener implements Listener {
         
         if (this.checkIPs && handler.handleChatIP(event.getPlayer(), event.getMessage())
                 && !Perms.BYPASS_IPS.has(event.getPlayer())) {
+            Messager.normal(Language.LOG_CHECK_IP, Bukkit.getConsoleSender(),
+                    event.getPlayer().getName() + ": " + event.getMessage());
             event.setCancelled(true);
             Messager.bad(Language.SPAMMING_MESSAGE_IP, event.getPlayer());
             return;
@@ -64,6 +67,8 @@ public class PluginListener implements Listener {
         
         if (this.checkURLs && handler.handleChatURL(event.getPlayer(), event.getMessage())
                 && !Perms.BYPASS_IPS.has(event.getPlayer())) {
+            Messager.normal(Language.LOG_CHECK_URL, Bukkit.getConsoleSender(),
+                    event.getPlayer().getName() + ": " + event.getMessage());
             event.setCancelled(true);
             Messager.bad(Language.SPAMMING_MESSAGE_URL, event.getPlayer());
         }
