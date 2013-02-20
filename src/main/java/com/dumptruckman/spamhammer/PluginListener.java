@@ -23,10 +23,15 @@ public class PluginListener implements Listener {
 
     private final SpamHandler handler;
     private final Config config;
+    private final boolean checkIPs;
+    private final boolean checkURLs;
 
     public PluginListener(final SpamHammer plugin) {
         this.handler = plugin.getSpamHandler();
         this.config = plugin.config();
+        
+        checkIPs = config.getBoolean(ConfigEntry.CHECKIPS);
+        checkURLs = config.getBoolean(ConfigEntry.CHECKURLS);
     }
 
     /**
@@ -37,7 +42,6 @@ public class PluginListener implements Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerChat(final AsyncPlayerChatEvent event) {
         // TODO change this to detect long messages and see if they're different. could then assume chat mod in use.
-        
         if (handler.isMuted(event.getPlayer()) && !Perms.BYPASS_MUTE.has(event.getPlayer())) {
             event.setCancelled(true);
             Messager.bad(Language.MUTED, event.getPlayer());
@@ -48,6 +52,20 @@ public class PluginListener implements Listener {
                 && config.getBoolean(ConfigEntry.PREVENT_MESSAGES) && !Perms.BYPASS_REPEAT.has(event.getPlayer())) {
             event.setCancelled(true);
             Messager.bad(Language.SPAMMING_MESSAGE, event.getPlayer());
+            return;
+        }
+        
+        if (this.checkIPs && handler.handleChatIP(event.getPlayer(), event.getMessage())
+                && !Perms.BYPASS_IPS.has(event.getPlayer())) {
+            event.setCancelled(true);
+            Messager.bad(Language.SPAMMING_MESSAGE_IP, event.getPlayer());
+            return;
+        }
+        
+        if (this.checkURLs && handler.handleChatURL(event.getPlayer(), event.getMessage())
+                && !Perms.BYPASS_IPS.has(event.getPlayer())) {
+            event.setCancelled(true);
+            Messager.bad(Language.SPAMMING_MESSAGE_URL, event.getPlayer());
         }
     }
 

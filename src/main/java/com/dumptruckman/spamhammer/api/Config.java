@@ -81,7 +81,12 @@ public class Config {
                 "# This setting determines how long a player will be watched for additional spam before starting",
                 "# them at the lowest punishment level.","# This time measured in seconds."}),
         CALLHOME(Boolean.class, "settings.callhome",true,new String[]{
-                "# This activates phoning home to www.slipcor.net"});
+                "# This activates phoning home to www.slipcor.net"}),
+        
+        CHECKIPS(Boolean.class, "settings.chat.checkips",false,new String[]{
+                "# Check for IPs and punish when found"}),
+        CHECKURLS(Boolean.class, "settings.chat.checkurls",false,new String[]{
+                "# Check for URLs and punish when found"});
     
         Class type;
         String node;

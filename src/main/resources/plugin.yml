@@ -22,6 +22,8 @@ permissions:
       spamhammer.bypass.punish.ban: true
       spamhammer.bypass.punish.kick: true
       spamhammer.bypass.punish.mute: true
+      spamhammer.bypass.punish.ips: true
+      spamhammer.bypass.punish.urls: true
     default: false
   spamhammer.bypass.repeat:
     description: Allows to bypass repeat message limit
@@ -34,6 +36,12 @@ permissions:
     default: false
   spamhammer.bypass.punish.mute:
     description: Allows to bypass mute punishments
+    default: false
+  spamhammer.bypass.punish.ips:
+    description: Allows to bypass IP check punishments
+    default: false
+  spamhammer.bypass.punish.urls:
+    description: Allows to bypass URL check punishments
     default: false
   spamhammer.cmd.*:
     description: Allows use of all commands

@@ -38,6 +38,11 @@ settings:
     # This time measured in seconds.
     time: 300
   callhome: true
+  chat:
+    # Check for IPs and punish when found
+    checkips: false
+    # Check for URLs and punish when found
+    checkurls: false
   language:
     # This is the locale you wish to use.
     locale: en

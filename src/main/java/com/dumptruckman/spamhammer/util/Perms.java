@@ -18,6 +18,8 @@ public enum Perms {
     BYPASS_MUTE("spamhammer.bypass.punish.mute","Allows user to bypass mute punishments",BYPASS_PUNISH),
     BYPASS_KICK("spamhammer.bypass.punish.kick","Allows user to bypass kick punishments",BYPASS_PUNISH),
     BYPASS_BAN("spamhammer.bypass.punish.ban","Allows user to bypass ban punishments",BYPASS_PUNISH),
+    BYPASS_IPS("spamhammer.bypass.punish.ips","Allows user to bypass IP check punishments",BYPASS_PUNISH),
+    BYPASS_URLS("spamhammer.bypass.punish.urls","Allows user to bypass URL punishments",BYPASS_PUNISH),
     
     CMD_ALL("spamhammer.cmd.*", "Allows use of all commands"),
     

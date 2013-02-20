@@ -19,6 +19,10 @@ public abstract interface SpamHandler {
     boolean beenMuted(final OfflinePlayer name);
 
     boolean handleChat(OfflinePlayer player, String message);
+
+    boolean handleChatIP(OfflinePlayer player, String message);
+
+    boolean handleChatURL(OfflinePlayer player, String message);
     
     boolean hasDuplicateMessages(final OfflinePlayer name);
 

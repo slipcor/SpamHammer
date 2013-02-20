@@ -31,6 +31,9 @@ public enum Language {
             "Spamming punishment reset.  Be nice!"),
 
     SPAMMING_MESSAGE("spamming.message", "You are spamming! Chill out!"),
+    SPAMMING_MESSAGE_IP("spamming.messageip", "Sharing IPs is not allowed!"),
+    SPAMMING_MESSAGE_URL("spamming.messageurl", "Sharing URLs is not allowed!"),
+    
     UNMUTE_COMMAND_MESSAGE_SUCCESS("command.unmute.success",
             "%1 has been unmuted."),
     UNMUTE_COMMAND_MESSAGE_FAILURE("command.unmute.failure",

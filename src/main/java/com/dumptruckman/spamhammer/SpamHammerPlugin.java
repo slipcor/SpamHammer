@@ -26,7 +26,7 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
     
     protected Config cfg = null;
     private SpamHandler spamHandler = null;
-    private static final int CFGVERSION = 2;
+    private static final int CFGVERSION = 3;
     
     /**
      * Return the {@link com.dumptruckman.spamhammer.api.Config} instance

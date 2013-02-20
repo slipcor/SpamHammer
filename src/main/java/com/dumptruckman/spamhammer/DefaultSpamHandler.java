@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -33,6 +35,9 @@ public class DefaultSpamHandler implements SpamHandler {
     final private List<String> mutedPlayers = new ArrayList<String>();
     final private List<String> beenMutedPlayers = new ArrayList<String>();
     final private List<String> beenKickedPlayers = new ArrayList<String>();
+    
+    final Pattern patIP = Pattern.compile("\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b");
+    final Pattern patURL = Pattern.compile("(http://)|(https://)?(www)?\\S{2,}((\\.com)|(\\.net)|(\\.org)|(\\.co\\.uk)|(\\.tk)|(\\.info)|(\\.es)|(\\.de)|(\\.arpa)|(\\.edu)|(\\.firm)|(\\.int)|(\\.mil)|(\\.mobi)|(\\.nato)|(\\.to)|(\\.fr)|(\\.ms)|(\\.vu)|(\\.eu)|(\\.nl)|(\\.us)|(\\.dk))");
     
     final private SpamHammer plugin;
 
@@ -101,6 +106,11 @@ public class DefaultSpamHandler implements SpamHandler {
     @Override
     public boolean beenMuted(final OfflinePlayer name) {
         return beenMutedPlayers.contains(name.getName());
+    }
+    
+    private boolean checkRegEx(final Pattern regEx, final String message) {
+        final Matcher matcher = regEx.matcher(message);
+        return matcher.find();
     }
 
     /**
@@ -190,6 +200,38 @@ public class DefaultSpamHandler implements SpamHandler {
             playerIsSpamming(player);
         }
         return isSpamming;
+    }
+
+    /**
+     * Handle a player chat message
+     * 
+     * @param player the chatting player
+     * @param message the message content
+     * @return if the player is spamming
+     */
+    @Override
+    public boolean handleChatIP(final OfflinePlayer player, final String message) {
+        if (checkRegEx(patIP, message)) {
+            playerIsSpamming(player);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handle a player chat message
+     * 
+     * @param player the chatting player
+     * @param message the message content
+     * @return if the player is spamming
+     */
+    @Override
+    public boolean handleChatURL(final OfflinePlayer player, final String message) {
+        if (checkRegEx(patURL, message)) {
+            playerIsSpamming(player);
+            return true;
+        }
+        return false;
     }
 
     /**
