@@ -26,6 +26,7 @@ Hammer those spammers!
 
 === Changelog
 
+* v3.0.0.13: compile against Bukkit 1.4.7-R1.0
 * v3.0.0.12: add console output for eventual investigation (false positives?)
 * v3.0.0.11: add URL and IP checks for chat
 * v3.0.0.10: first kick, then ban (displays the proper ban message)
