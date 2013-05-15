@@ -21,12 +21,8 @@ public final class Messager {
      * Used to prepend prefixes before messages
      */
     static enum MessagePrefix {
-        BLANK(""),
         ERROR("[Error] "),
-        SUCCESS("[Success] "),
-        INFO("[Info] "),
-        HELP("[Help] "),
-        OFF("OFF");
+        SUCCESS("[Success] ");
         
         private String prefix;
         

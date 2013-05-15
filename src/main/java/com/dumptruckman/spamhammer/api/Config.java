@@ -242,12 +242,7 @@ public class Config {
                     
                     String[] split = key.split("\\.");
                     
-                    //System.out.print(firstDigit);
-                    //System.out.print(pos);
-                    
                     if (newDigit > firstDigit) {
-                        // new indent, add to key
-                        //System.out.print(">");
                         indent++;
                         
                         final String[] newString = new String[split.length+1];
@@ -255,12 +250,8 @@ public class Config {
                         newString[split.length] = builder.toString();
                         split = newString;
                     } else if (newDigit < firstDigit) {
-                        // indent back, strip from key
-                        //System.out.print("<");
                         
                         indent = (int) (newDigit/2);
-                        
-                        //System.out.print("new indent: " + indent);
                         
                         final String[] newString = new String[indent+1];
                         
@@ -269,18 +260,8 @@ public class Config {
                         newString[newString.length-1] = builder.toString();
                         split = newString;
                     } else {
-                        //System.out.print("=");
-                        // same indent, update key
                         split[split.length-1] = builder.toString();
                     }
-                    
-                    //System.out.print("Debug --START--");
-                    //System.out.print("Indent: " + indent);
-                    //System.out.print("Key: " + key);
-                    //System.out.print("SB: " + sb.toString());
-                    //System.out.print("Pos: " + pos);
-                    //System.out.print("StringLine: " + stringLine);
-                    //System.out.print("Debug ---END---");
                     
                     final StringBuffer buffer = new StringBuffer();
                     for (String string : split) {
@@ -290,14 +271,9 @@ public class Config {
                     
                     key = buffer.substring(1);
                     
-                    
-                    //System.out.print("NewKey: " + key);
-                    //System.out.print("Debug ---END---");
-                    
                     final ConfigEntry entry = ConfigEntry.getByNode(key);
                     
                     if (entry == null) {
-                        //plugin.getLogger().log(Level.SEVERE, "node null: {0}", key);
                         writer.append(stringLine);
                         writer.newLine();
                         continue;
