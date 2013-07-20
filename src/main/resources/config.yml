@@ -54,3 +54,5 @@ settings:
     - /g
     - /general
     - /yell
+  # Never log anything
+  silent: false

@@ -12,6 +12,7 @@ import com.dumptruckman.spamhammer.util.Language;
 import com.dumptruckman.spamhammer.util.Messager;
 import com.dumptruckman.spamhammer.util.Tracker;
 import java.io.IOException;
+import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -98,6 +99,10 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
      */
     @Override
     public void onEnable() {
+        if (config().getBoolean(ConfigEntry.SILENT)) {
+            getLogger().setLevel(Level.WARNING);
+        }
+        
         try {
             Language.init(this, config().get(ConfigEntry.LANGUAGE_FILE));
             Messager.normal(Language.LANGUAGE_FILE, Bukkit.getConsoleSender(), config().get(ConfigEntry.LANGUAGE_FILE));
