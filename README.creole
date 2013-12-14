@@ -26,6 +26,7 @@ Hammer those spammers!
 
 === Changelog
 
+* v3.0.1.16: add a caps limiter
 * v3.0.1.15: add config setting to remain silent -> no logging!
 * v3.0.0.14: micro optimization, build against CB 1.5.2-0.1
 * v3.0.0.13: compile against Bukkit 1.4.7-R1.0

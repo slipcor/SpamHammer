@@ -16,6 +16,14 @@ settings:
       limit: 2
       # If set to true, this will block repeat messages.
       block: true
+    # The caps limiter setting allows for a maximum amount/ratio of caps per message
+    caps:
+      # How many uppercase characters are allowed per message?
+      maxamount: 0
+      # How many uppercase characters relatively to the length are allowed?
+      maxratio: 0.0
+      # How many letters are required before checking?
+      minlength: 5
   # === [ Punishment Settings ] ===
   punishments:
     kick:

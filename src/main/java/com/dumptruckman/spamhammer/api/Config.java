@@ -58,6 +58,12 @@ public class Config {
         BLOCK_REPEATS(Boolean.class, "settings.message.repeat.block",true,new String[]{"# If set to true, this will block repeat messages."}),
         REPEAT_LIMIT(Integer.class, "settings.message.repeat.limit",2,new String[]{"# If SpamHammer is set to block repeat messages, this is how many messages before they are considered repeats."}),
 
+        CAPS(Null.class, "settings.message.caps", null, new String[]{"# The caps limiter setting allows for a maximum amount/ratio of caps per message"}),
+        
+        CAPS_MAXAMOUNT(Integer.class, "settings.message.caps.maxamount", 0, new String[]{"# How many uppercase characters are allowed per message?"}),
+        CAPS_MAXRATIO(Double.class, "settings.message.caps.maxratio", 0d, new String[]{"# How many uppercase characters relatively to the length are allowed?"}),
+        CAPS_MINLENGTH(Integer.class, "settings.message.caps.minlength", 5, new String[]{"# How many letters are required before checking?"}),
+        
         INCLUDE_COMMANDS(String.class, "settings.commandlist.possiblespam",Arrays.asList("/g", "/general", "/yell"),new String[]{
            "# The commands listed here will be included in spam checking."}),
         
@@ -151,6 +157,15 @@ public class Config {
      */
     public int getInt(final ConfigEntry entry) {
         return plugin.getConfig().getInt(entry.getNode());
+    }
+    
+    /**
+     * Read a config Double entry
+     * @param entry the entry to read
+     * @return the config double value
+     */
+    public double getDouble(final ConfigEntry entry) {
+        return plugin.getConfig().getDouble(entry.getNode());
     }
     
     /**

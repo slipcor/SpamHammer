@@ -31,7 +31,7 @@ public class DefaultSpamHandler implements SpamHandler {
     final private ConcurrentHashMap<String, ArrayDeque<Long>> playerChatTimes = new ConcurrentHashMap<String, ArrayDeque<Long>>();
     final private ConcurrentHashMap<String, ArrayDeque<String>> playerChatHistory = new ConcurrentHashMap<String, ArrayDeque<String>>();
     final private ConcurrentHashMap<String, Long> playerActionTime = new ConcurrentHashMap<String, Long>();
-
+ 
     final private List<String> mutedPlayers = new ArrayList<String>();
     final private List<String> beenMutedPlayers = new ArrayList<String>();
     final private List<String> beenKickedPlayers = new ArrayList<String>();
@@ -195,7 +195,32 @@ public class DefaultSpamHandler implements SpamHandler {
             playerChatHistory.put(player.getName(), playerChat);
             isSpamming = hasDuplicateMessages(player);
         }
-
+        
+        if (!isSpamming) {
+        	// nothing bad yet. But maybe there is a caps issue?
+        	final int maxCaps = config.getInt(ConfigEntry.CAPS_MAXAMOUNT);
+        	final double maxRatio = config.getDouble(ConfigEntry.CAPS_MAXRATIO);
+        	final int minLength = config.getInt(ConfigEntry.CAPS_MINLENGTH);
+        	
+        	if (minLength < message.length() && (maxCaps > 0 || maxRatio > 0)) {
+        		int sum = 0;
+        		int uppercase = 0;
+        		final char[] cArray = message.toCharArray();
+        		for (char c : cArray) {
+        			if (Character.isLowerCase(c)) {
+        				sum++;
+        			} else if (c != ' ') {
+        				sum++;
+        				uppercase++;
+        			}
+        		}
+        		
+        		// sum now is all actual letters and signs
+        		// uppercase is the actual uppercase count, including signs
+        		isSpamming = (maxCaps < uppercase) || (maxRatio < uppercase/sum);
+        	}
+        }
+        
         if (isSpamming) {
             playerIsSpamming(player);
         }
