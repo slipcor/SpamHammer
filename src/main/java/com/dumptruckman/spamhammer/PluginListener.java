@@ -1,5 +1,7 @@
 package com.dumptruckman.spamhammer;
 
+import java.util.List;
+
 import com.dumptruckman.spamhammer.api.Config;
 import com.dumptruckman.spamhammer.api.Config.ConfigEntry;
 import com.dumptruckman.spamhammer.api.SpamHammer;
@@ -43,7 +45,7 @@ public class PluginListener implements Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerChat(final AsyncPlayerChatEvent event) {
         // TODO change this to detect long messages and see if they're different. could then assume chat mod in use.
-        if (handler.isMuted(event.getPlayer()) && !Perms.BYPASS_MUTE.has(event.getPlayer())) {
+        if (!"command".equals(config.get(ConfigEntry.MUTE_TYPE)) && handler.isMuted(event.getPlayer()) && !Perms.BYPASS_MUTE.has(event.getPlayer())) {
             event.setCancelled(true);
             Messager.bad(Language.MUTED, event.getPlayer());
             return;
@@ -81,7 +83,22 @@ public class PluginListener implements Listener {
      */
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(final PlayerCommandPreprocessEvent event) {
-        if (handler.isMuted(event.getPlayer()) && !Perms.BYPASS_MUTE.has(event.getPlayer())) {
+    	final List<String> chatcmds = config.getList(ConfigEntry.INCLUDE_COMMANDS);
+    	boolean chat = false;
+    	for (String entry : chatcmds) {
+    		if (event.getMessage().startsWith(entry)) {
+    			chat = true;
+    			break;
+    		}
+    	}
+    	
+    	if (
+    		(chat || !"chat".equals(config.get(ConfigEntry.MUTE_TYPE))
+    		    		
+    		&& handler.isMuted(event.getPlayer()) && !Perms.BYPASS_MUTE.has(event.getPlayer()))) {
+    		
+    		// this in here is the punishment, so the opposite of what we allow
+    		
             event.setCancelled(true);
             Messager.bad(Language.MUTED, event.getPlayer());
             return;

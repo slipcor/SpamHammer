@@ -35,6 +35,11 @@ settings:
       # If mute punishment is used, this is how long the player will be muted for.
       # This time measured in seconds.
       length: 30
+      # What should be muted? Possible values: chat, command, both
+      type: both
+      # Which commands should be considered chat-like and thus also muted as chat?
+      chatcommands:
+      - me
     ban:
       # Setting this to true will ban players as the final level of punishment.
       use: true

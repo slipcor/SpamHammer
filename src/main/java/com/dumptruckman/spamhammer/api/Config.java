@@ -76,7 +76,9 @@ public class Config {
         MUTE_LENGTH(Integer.class, "settings.punishments.mute.length",30,new String[]{
                 "# If mute punishment is used, this is how long the player will be muted for.",
                 "# This time measured in seconds."}),
-
+        MUTE_TYPE(String.class, "settings.punishments.mute.type", "both", new String[]{
+        	"# What should be muted? Possible values: chat, command, both"}),
+        	
         USE_KICK(Boolean.class, "settings.punishments.kick.use",true,new String[]{
                 "# Setting this to true will kick players as the second level of punishment."}),
         USE_BAN(Boolean.class, "settings.punishments.ban.use",true,new String[]{
