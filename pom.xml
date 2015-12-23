@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dumptruckman.spamhammer</groupId>
     <artifactId>SpamHammer</artifactId>
-    <version>3.0-alpha</version>
+    <version>3.0</version>
     <name>SpamHammer</name>
     <description>Hammer those spammers!</description>
     <properties>
