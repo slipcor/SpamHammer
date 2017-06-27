@@ -26,6 +26,7 @@ Hammer those spammers!
 
 === Changelog
 
+* v3.0.1.18: fix the plugin breaking in Spigot 1.12 due to removed methods
 * v3.0.1.17: distinguish between chat muting and command muting
 * v3.0.1.16: add a caps limiter
 * v3.0.1.15: add config setting to remain silent -> no logging!
