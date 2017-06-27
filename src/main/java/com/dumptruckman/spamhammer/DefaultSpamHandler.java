@@ -14,6 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.bukkit.BanList.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -76,7 +78,7 @@ public class DefaultSpamHandler implements SpamHandler {
                 @Override
                 public void run() {
                     onlinePlayer.kickPlayer(Language.BAN_MESSAGE.toString());
-                    player.setBanned(true);
+                    Bukkit.getBanList(Type.NAME).addBan(player.getName(), null, null, null);
                     plugin.getLogger().log(Level.INFO, "Player banned: {0}", player.getName());
                 }
             }
@@ -401,7 +403,7 @@ public class DefaultSpamHandler implements SpamHandler {
      */
     @Override
     public void unBanPlayer(final OfflinePlayer player) {
-        player.setBanned(false);
+        Bukkit.getBanList(Type.NAME).pardon(player.getName());
     }
 
     /**
