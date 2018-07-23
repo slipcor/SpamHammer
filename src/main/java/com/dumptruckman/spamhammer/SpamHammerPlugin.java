@@ -71,7 +71,7 @@ public class SpamHammerPlugin extends JavaPlugin implements SpamHammer {
     /**
      * Create and return a new {@link com.dumptruckman.spamhammer.api.Config} instance
      * @return the instnace
-     * @throws IOException 
+     * @throws IOException an exception in case the config could not be updated
      */
     private Config newConfigInstance() throws IOException {
         

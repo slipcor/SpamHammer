@@ -68,7 +68,7 @@ public enum Language {
      * 
      * @param plugin the SpamHammer plugin
      * @param file the configuration file
-     * @throws IOException 
+     * @throws IOException an exception in case the config could not be created or loaded
      */
     public static void init(final SpamHammer plugin, final String file) throws IOException {
         final File cfg = new File(plugin.getDataFolder(), file);

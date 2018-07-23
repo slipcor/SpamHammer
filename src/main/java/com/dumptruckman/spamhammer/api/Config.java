@@ -271,7 +271,7 @@ public class Config {
                         split = newString;
                     } else if (newDigit < firstDigit) {
                         
-                        indent = (int) (newDigit/2);
+                        indent = (newDigit/2);
                         
                         final String[] newString = new String[indent+1];
                         
@@ -283,7 +283,7 @@ public class Config {
                         split[split.length-1] = builder.toString();
                     }
                     
-                    final StringBuffer buffer = new StringBuffer();
+                    final StringBuilder buffer = new StringBuilder();
                     for (String string : split) {
                         buffer.append('.');
                         buffer.append(string);
@@ -299,7 +299,7 @@ public class Config {
                         continue;
                     }
                     
-                    final StringBuffer value = new StringBuffer();
+                    final StringBuilder value = new StringBuilder();
                     
                     for (int k=0; k<indent; k++) {
                         value.append("  ");

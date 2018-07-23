@@ -10,7 +10,7 @@ import org.bukkit.OfflinePlayer;
  * 
  * @author dumptruckman,slipcor
  */
-public abstract interface SpamHandler {
+public interface SpamHandler {
     
     void banPlayer(final OfflinePlayer player);
     

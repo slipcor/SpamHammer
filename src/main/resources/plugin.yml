@@ -1,6 +1,6 @@
 name: SpamHammer
 main: com.dumptruckman.spamhammer.SpamHammerPlugin
-version: 3.0.1.18
+version: 3.0.2.1
 authors: [dumptruckman,slipcor]
 dev-url: http://dev.bukkit.org/server-mods/spamhammer
 permissions:

@@ -46,7 +46,6 @@ public class Tracker implements Runnable {
             new URL(url).openConnection().getInputStream();
         } catch (Exception e) {
             plugin.getLogger().warning("Error while connecting to www.slipcor.net");
-            return;
         }
     }
 

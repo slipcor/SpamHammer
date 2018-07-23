@@ -20,7 +20,7 @@ public final class Messager {
      * 
      * Used to prepend prefixes before messages
      */
-    static enum MessagePrefix {
+    enum MessagePrefix {
         ERROR("[Error] "),
         SUCCESS("[Success] ");
         

@@ -6,10 +6,6 @@
     <version>3.0</version>
     <name>SpamHammer</name>
     <description>Hammer those spammers!</description>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.number>UNKNOWN</project.build.number>
-    </properties>
 
     <repositories>
     <repository>
@@ -22,7 +18,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-        <version>1.12-R0.1-SNAPSHOT</version>
+        <version>1.12.2-R0.1-SNAPSHOT</version>
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
